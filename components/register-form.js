@@ -95,12 +95,14 @@ export default function RegisterForm() {
               <div className={styles.validation}></div>
               <label className={ `${styles.label} ${styles['label--password']}` } htmlFor="password">Password</label>
               <input className={ `${styles.input} ${styles['input--expand']}` } 
-                     type="password" 
-                     id="password" 
-                     name="password-control" 
-                     value={ password } 
-                     onChange={ handlePasswordChange } 
-                     required/>
+                type="password" 
+                id="password" 
+                name="password-control" 
+                value={ password } 
+                onChange={ handlePasswordChange } 
+                required/>
+
+                fghfghfghfhfgh
               
               <ul className={ styles.hints }>
                 { hintItems }
