@@ -1,0 +1,244 @@
+// Styling config 
+
+@font-face {
+    font-family: 'ArialMT';
+    src: url('../fonts/ArialMT.ttf');
+  }
+  
+  @font-face {
+    font-family: 'ITCZapfDingbats';
+    src: url('../fonts/ITCZapfDingbats.ttf');
+  }
+
+/**
+ * Defines breakpoints values for responsive.
+ */
+$sm-min: 0;
+$sm-max: 639px;
+
+$md-min: 640px;
+$md-max: 1023px;
+
+$lg-min: 1024px;
+
+$setting-breakpoints: (
+    sm: (
+        $sm-min,
+        $sm-max,
+    ),
+    md: (
+        $md-min,
+        $md-max,
+    ),
+    lg: (
+        $lg-min,
+    ),
+);
+
+/**
+ * Defines grid system columns count.
+ */
+ $setting-grid-columns: 12;
+
+ /**
+  * Defines grid container max width.
+  */
+ $setting-grid-max-width: 1400px;
+ 
+ /**
+  * Defines gutters' size for grid "with-gutter" modifier.
+  */
+ $setting-grid-gutter: 0;
+
+ /**
+  * Defines spacing between grid columns for desktop view mode.
+  */
+$setting-grid-space: 8px;
+
+/**
+  * Defines spacing between grid columns for mobile view mode.
+  */
+$setting-grid-space-mobile: 4px;
+
+ /**
+ * Adds clearing for element with floated child elements.
+ */
+@mixin helper-ui-clearfix {
+    &::after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+
+    @content;
+}
+
+ /**
+ * Returns 0 or the first value from the $edges list.
+ * @param {List} $edges [$setting-breakpoints] List length must be less than or equal to 2.
+ * @return {Base}
+ */
+@function helper-breakpoint-edge-min($edges) {
+    @if length($edges) > 0 {
+        @return nth($edges, 1);
+    }
+
+    @return 0;
+}
+
+/**
+ * Returns column ratio in relation to columns count.
+ * @param {Number} $column
+ * @param {Number} $columns [$setting-grid-columns]
+ * @return {Number}
+ */
+ @function helper-grid-span($column, $columns: $setting-grid-columns) {
+    @return (100% / $columns) * $column;
+}
+
+// Basic component styles
+.button {
+    transition: background-color .5s, border-color .5s;
+    padding: 16px;
+    width: 100%;
+    background-color: #000;
+    text-align: center;
+    font-size: 18px;
+    font-family: 'ArialMT', sans-serif;
+    color: #fff;
+    letter-spacing: 0;
+    border: 2px solid #000;
+    cursor: pointer;
+
+    &:hover {
+        border-color: #666;
+        background-color: #666;
+    }
+}
+
+.registration {
+    min-width: 288px;
+
+    @media only screen and (min-width: $md-min) {
+        width: 600px;
+    }
+}
+
+.grid {
+    @include helper-ui-clearfix;
+    clear: both;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    &--gap {
+        margin-left: -$setting-grid-space-mobile;
+        margin-right: -$setting-grid-space-mobile;
+        width: calc(100% + #{$setting-grid-space-mobile * 2});
+        max-width: calc(100% + #{$setting-grid-space-mobile * 2});
+
+        @media only screen and (min-width: $lg-min) {
+            margin-left: -$setting-grid-space;
+            margin-right: -$setting-grid-space;
+            width: calc(100% + #{$setting-grid-space * 2});
+            max-width: calc(100% + #{$setting-grid-space * 2});
+        }
+
+        & > .col {
+            padding-left: $setting-grid-space-mobile;
+            padding-right: $setting-grid-space-mobile;
+
+            @media only screen and (min-width: $lg-min) {
+                padding-left: $setting-grid-space;
+                padding-right: $setting-grid-space;
+            }
+        }
+    }
+}
+
+.col {
+    @include helper-ui-clearfix;
+    float: left;
+    display: block;
+    flex-grow: 0;
+    flex-basis: auto;
+
+    @each $breakpoint, $edges in $setting-breakpoints {
+        @media only screen and (min-width: helper-breakpoint-edge-min($edges)) {
+            @for $column from 1 through $setting-grid-columns {
+                &--#{$breakpoint}-#{$column} {
+                    width: helper-grid-span($column);
+                    min-width: helper-grid-span($column);
+                }
+            }
+        }
+    }
+}
+
+// Form elements
+.fieldset {
+    padding: 32px 16px;
+    border: 2px solid #000;
+}
+
+.label {
+    display: block;
+    color: #000;
+    letter-spacing: 0;
+    margin-bottom: 16px;
+
+    &--password {
+        margin-top: 16px;
+
+        @media only screen and (min-width: $md-min) {
+            margin-top: 0;
+        }
+    }
+}
+
+.input {
+    padding: 18px;
+    border: 2px solid #000;
+    font-family: 'ArialMT', sans-serif;
+    letter-spacing: 0;
+
+    &--expand {
+        display: block;
+        width: 100%;
+    }
+}
+
+.hints {
+    padding: 13px 0 32px;   
+    margin: 0;
+    list-style: none;
+}
+
+.checked {
+    margin-right: 6px;
+    display: none;
+    color: #009E2D;
+}
+
+.unchecked {
+    margin-right: 6px;
+    display: inline-block;
+    color: #9E0000;
+}
+
+.hint {
+    margin: 0;
+    line-height: 24px;
+
+    &--checked {
+        .checked {
+            display: inline-block;
+        }
+    
+        .unchecked {
+            display: none;
+        }
+    }
+}
+
