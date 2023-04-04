@@ -101,8 +101,6 @@ export default function RegisterForm() {
                 value={ password } 
                 onChange={ handlePasswordChange } 
                 required/>
-
-                fghfghfghfhfgh
               
               <ul className={ styles.hints }>
                 { hintItems }
